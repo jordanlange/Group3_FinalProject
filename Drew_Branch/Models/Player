@@ -1,0 +1,32 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const Player = new Schema({
+    games_played: 
+    {
+        type: String,
+        required: true
+    },
+    player_name:
+    {
+        type: String,
+        required: true
+    },
+    points_scored:
+    {
+        type: String,
+        required: true
+    },
+    position:
+    {
+        type: String,
+        required: true
+    },
+    status:
+    {
+        type: String,
+        required: true
+    }
+});
+
+mongoose.model('Player', Player);
