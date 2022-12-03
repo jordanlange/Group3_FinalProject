@@ -57,7 +57,6 @@ app.post('/addTeam', async (req, res) => {
             WR2: req.body.WR2,
             owner: req.body.owner,
             points_to_date: req.body.points_to_date,
-            team_defense: req.body.team_defense,
             team_name: req.body.team_name
         }
         await Team(team).save().then(e => {
@@ -102,7 +101,7 @@ app.post('/findTeam', async (req, res) => {
 app.post('/addPlayer', async (req, res) => {
     try {
         let player = {
-            games_played: req.body.games_played,
+            bye_week: req.body.bye_week,
             player_name: req.body.player_name,
             points_scored: req.body.points_scored,
             position: req.body.position,

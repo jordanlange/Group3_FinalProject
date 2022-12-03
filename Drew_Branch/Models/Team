@@ -42,11 +42,6 @@ const Team = new Schema({
         type: String,
         required: true
     },
-    team_defense:
-    {
-        type: String,
-        required: true
-    },
     team_name:
     {
         type: String,

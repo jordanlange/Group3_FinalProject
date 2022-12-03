@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Player = new Schema({
-    games_played: 
+    bye_week: 
     {
         type: String,
         required: true
