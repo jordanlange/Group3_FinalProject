@@ -34,9 +34,11 @@ db.once('open', () => {
 // Schema model declaration
 require('./Models/Team');
 require('./Models/Player');
+require('./Models/Team_Player');
 
 const Team = mongoose.model('Team');
 const Player = mongoose.model('Player');
+const Team_player = mongoose.model('Team_Player');
 
 // index route; proves server connection is up and running and Postman works
 app.get('/', (req, res) => {
@@ -44,20 +46,15 @@ app.get('/', (req, res) => {
 });
 
 // ##############################################################################
-// The ADD_TEAM route contoller
+// The ADD_TEAM route controller
 // ##############################################################################
 app.post('/addTeam', async (req, res) => {
     try {
         let team = {
-            K: req.body.K,
-            QB: req.body.QB,
-            RB: req.body.RB,
-            TE: req.body.TE,
-            WR1: req.body.WR1,
-            WR2: req.body.WR2,
             owner: req.body.owner,
             points_to_date: req.body.points_to_date,
-            team_name: req.body.team_name
+            team_name: req.body.team_name,
+            team_logo: req.body.team_logo
         }
         await Team(team).save().then(e => {
             return res.status(201).json('Team Added');
@@ -68,8 +65,33 @@ app.post('/addTeam', async (req, res) => {
     }
 });
 
+
 // ##############################################################################
-// The GET_ALL_TEAMS route contoller
+// The ADD_TEAM_PLAYER route controller
+// ##############################################################################
+app.post('/addTeam_player', async (req, res) => {
+    try {
+        let team_player = {
+            team_player_ID: req.body.team_player_ID,
+            owner: req.body.owner,
+            QB: req.body.QB,
+            RB: req.body.RB,
+            WR1: req.body.WR1,
+            WR2: req.body.WR2,
+            TE: req.body.TE,
+            K: req.body.K
+        }
+        await Team_player(team_player).save().then(e => {
+            return res.status(201).json('Team_player Added');
+        })
+
+    } catch {
+        return res.status(500).json('message: failed to add team_player -- bad data');
+    }
+});
+
+// ##############################################################################
+// The GET_ALL_TEAMS route controller
 // ##############################################################################
 app.get('/getAllTeams', async (req, res) => {
     try {
@@ -80,8 +102,22 @@ app.get('/getAllTeams', async (req, res) => {
     }
 });
 
+
 // ##############################################################################
-// The FIND_TEAM (BY TEAM NAME) route contoller
+// The GET_ALL_TEAM_PLAYERS route controller
+// ##############################################################################
+app.get('/getAllTeam_players', async (req, res) => {
+    try {
+        let team_players = await Team_player.find({}).lean();
+        return res.status(200).json(team_players);
+    } catch {
+        return res.status(500).json('message: failed to get team_players');
+    }
+});
+
+
+// ##############################################################################
+// The FIND_TEAM (BY TEAM NAME) route controller
 // ##############################################################################
 app.post('/findTeam', async (req, res) => {
     try {
@@ -95,8 +131,24 @@ app.post('/findTeam', async (req, res) => {
     }
 });
 
+
 // ##############################################################################
-// The ADD_PLAYER route contoller
+// The FIND_TEAM_PLAYERS_BY_OWNER route controller
+// ##############################################################################
+app.post('/findTeam_player', async (req, res) => {
+    try {
+    let oneTeam_player = {
+        owner: req.body.owner
+        }
+    var result = await Team_player.findOne({ owner: oneTeam_player.owner });
+    return res.status(200).json(result);
+    } catch {
+        return res.status(500).json('message: failed to find team_player owner match');
+    }
+});
+
+// ##############################################################################
+// The ADD_PLAYER route controller
 // ##############################################################################
 app.post('/addPlayer', async (req, res) => {
     try {
@@ -117,7 +169,7 @@ app.post('/addPlayer', async (req, res) => {
 });
 
 // ##############################################################################
-// The GET_ALL_PLAYERS route contoller
+// The GET_ALL_PLAYERS route controller
 // ##############################################################################
 
 app.get('/getAllPlayers', async (req, res) => {
@@ -131,7 +183,7 @@ app.get('/getAllPlayers', async (req, res) => {
 });
 
 // ##############################################################################
-// The FIND_PLAYER (BY PLAYER_NAME) route contoller
+// The FIND_PLAYER (BY PLAYER_NAME) route controller
 // ##############################################################################
 app.post('/findPlayer', async (req, res) => {
     try {
@@ -147,7 +199,7 @@ app.post('/findPlayer', async (req, res) => {
 
 
 // ##############################################################################
-// The EDIT_PLAYER_BY_POSITION route contoller
+// The EDIT_PLAYER_BY_POSITION route controller
 // ##############################################################################
 
 app.post('/editPlayerByPosition', async (req, res) => {
@@ -171,7 +223,7 @@ app.post('/editPlayerByPosition', async (req, res) => {
 
 
 // ##############################################################################
-// The EDIT_STUDENT_BY_FNAME route contoller
+// The EDIT_STUDENT_BY_FNAME route controller
 // ##############################################################################
 
 /*
@@ -198,31 +250,31 @@ app.post('/editStudentByFname', async (req, res) => {
 
 
 // ##############################################################################
-// The EDIT_OWNER_BY_TEAM route contoller
+// The EDIT_TEAM_NAME (BY OWNER) route controller
 // ##############################################################################
 
-app.post('/editOwnerByTeam', async (req, res) => {
+app.post('/editTeam_nameByOwner', async (req, res) => {
     try {
-        var team = await Team.updateOne({team_name: req.body.team_name}
+        var team = await Team.updateOne({owner: req.body.owner}
         , {
-            owner: req.body.owner
+            team_name: req.body.team_name
         }, {upsert: true});
         if(team)
         {
-            res.status(200).json('message: Team Owner Updated');
+            res.status(200).json('message: Team Name Updated');
         }
         else {
-            res.status(200).json('message: Team Owner Unchanged');
+            res.status(200).json('message: Team Name Unchanged');
         }
 
     } catch {
-        return res.status(500).json('message: failed to update team owner');
+        return res.status(500).json('message: failed to update team name');
     }
 });
 
 
 // ##############################################################################
-// The DELETE_TEAM_BY_TEAM_NAME route contoller
+// The DELETE_TEAM_BY_TEAM_NAME route controller
 // ##############################################################################
 
 app.post('/deleteTeamByTeam_name', async (req, res) => {
@@ -244,8 +296,32 @@ app.post('/deleteTeamByTeam_name', async (req, res) => {
 });
 
 
+
 // ##############################################################################
-// The DELETE_PLAYER_BY_PLAYER_NAME route contoller
+// The DELETE_TEAM_PLAYER_BY_OWNER route controller
+// ##############################################################################
+
+app.post('/deleteTeam_playerByOwner', async (req, res) => {
+    try {
+        var team_player = await Team_player.findOne({owner: req.body.owner});
+
+        if(team_player)
+        {
+            await Team_player.deleteOne({owner: req.body.owner});
+            res.status(200).json('message: Team_player deleted.');
+        }
+        else {
+            res.status(200).json('message: No Team_player found with that team_name');
+        }
+
+    } catch {
+        return res.status(500).json('message: failed to delete team_player.');
+    }
+});
+
+
+// ##############################################################################
+// The DELETE_PLAYER_BY_PLAYER_NAME route controller
 // ##############################################################################
 
 app.post('/deletePlayerByPlayer_name', async (req, res) => {
