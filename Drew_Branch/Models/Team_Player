@@ -1,0 +1,47 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const Team_Player = new Schema({
+    team_player_ID: 
+    {
+        type: String,
+        required: true
+    },
+    owner:  // as a FK must match owner name in paired 'team' record
+    {
+        type: String,
+        required: true
+    },
+    QB:
+    {
+        type: String,
+        required: true
+    },
+    RB:
+    {
+        type: String,
+        required: true
+    },
+    WR1:
+    {
+        type: String,
+        required: true
+    },
+    WR2: 
+    {
+        type: String,
+        required: true
+    },
+    TE:
+    {
+        type: String,
+        required: true
+    },
+    K:
+    {
+        type: String,
+        required: true
+    }
+});
+
+mongoose.model('Team_Player', Team_Player);

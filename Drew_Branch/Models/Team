@@ -2,47 +2,22 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Team = new Schema({
-    K: 
+    
+    team_logo:
     {
-        type: String,
-        required: true
+        type: String
     },
-    QB:
-    {
-        type: String,
-        required: true
-    },
-    RB:
-    {
-        type: String,
-        required: true
-    },
-    TE:
-    {
-        type: String,
-        required: true
-    },
-    WR1:
-    {
-        type: String,
-        required: true
-    },
-    WR2: 
-    {
-        type: String,
-        required: true
-    },
-    owner:
-    {
-        type: String,
-        required: true
-    },
-    points_to_date:
+    owner:  // must match 'owner' field in paired Team_Player document
     {
         type: String,
         required: true
     },
     team_name:
+    {
+        type: String,
+        required: true
+    },
+    points_to_date:
     {
         type: String,
         required: true
