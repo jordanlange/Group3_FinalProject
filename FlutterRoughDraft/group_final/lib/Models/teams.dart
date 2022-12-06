@@ -12,11 +12,11 @@ class Team {
 
   factory Team.fromJson(Map json) {
     final id = json[''].replaceAll('ObjectId(\"', '').replaceAll('\")', '');
-    final courseInstructor = json['team_logo'];
+    final team_logo = json['team_logo'];
     final owner = json['owner'];
     final team_name = json['team_name'];
     final points_to_date = json['points_to_date'];
 
-    return Team._(id, courseInstructor, owner, team_name, points_to_date);
+    return Team._(id, team_logo, owner, team_name, points_to_date);
   }
 }
