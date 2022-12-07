@@ -96,7 +96,7 @@ app.post('/addTeam_player', async (req, res) => {
 app.get('/getAllTeams', async (req, res) => {
     try {
         let teams = await Team.find({}).lean();
-        return res.status(200).json(teams);
+        return res.status(200).json({"teams": teams});
     } catch {
         return res.status(500).json('message: failed to get teams');
     }
