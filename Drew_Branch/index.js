@@ -90,6 +90,36 @@ app.post('/addTeam_player', async (req, res) => {
     }
 });
 
+
+// ##############################################################################
+// The EDIT_TEAM_PLAYER_BY_OWNER route controller
+// ##############################################################################
+
+app.post('/editTeam_playerByOwner', async (req, res) => {
+    try {
+        let team_player = await Team_player.updateOne({owner: req.body.owner}
+        , {
+            QB: req.body.QB,
+            RB: req.body.RB,
+            WR1: req.body.WR1,
+            WR2: req.body.WR2,
+            TE: req.body.TE,
+            K: req.body.K
+        }, {upsert: true});
+        if(team_player)
+        {
+            res.status(200).json('message: Team_player roster updated');
+        }
+        else {
+            res.status(200).json('message: No Team_player roster changes made');
+        }
+
+    } catch {
+        return res.status(500).json('message: failed to edit Team_player roster');
+    }
+});
+
+
 // ##############################################################################
 // The GET_ALL_TEAMS route controller
 // ##############################################################################
