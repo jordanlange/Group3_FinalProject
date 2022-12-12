@@ -139,7 +139,7 @@ app.get('/getAllTeams', async (req, res) => {
 app.get('/getAllTeam_players', async (req, res) => {
     try {
         let team_players = await Team_player.find({}).lean();
-        return res.status(200).json(team_players);
+        return res.status(200).json({"team_players": team_players});
     } catch {
         return res.status(500).json('message: failed to get team_players');
     }
