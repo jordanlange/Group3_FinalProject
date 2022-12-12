@@ -1,22 +1,24 @@
 import 'dart:convert';
 
-class Team {
+class Player {
   final String id;
-  final String team_logo;
-  final String owner;
-  final String team_name;
-  final String points_to_date;
+  final String bye_week;
+  final String player_name;
+  final String points_scored;
+  final String position;
+  final String status;
 
-  Team._(
-      this.id, this.team_logo, this.owner, this.team_name, this.points_to_date);
+  Player._(this.id, this.bye_week, this.player_name, this.points_scored,
+      this.position, this.status);
 
-  factory Team.fromJson(Map json) {
+  factory Player.fromJson(Map json) {
     final id = json[''].replaceAll('ObjectId(\"', '').replaceAll('\")', '');
-    final team_logo = json['team_logo'];
-    final owner = json['owner'];
-    final team_name = json['team_name'];
-    final points_to_date = json['points_to_date'];
+    final bye_week = json['bye_week'];
+    final player_name = json['player_name'];
+    final points_scored = json['points_scored'];
+    final position = json['position'];
+    final status = json['status'];
 
-    return Team._(id, team_logo, owner, team_name, points_to_date);
+    return Player._(id, bye_week, player_name, points_scored, position, status);
   }
 }

@@ -54,8 +54,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(' Fantasy App'),
-      ),
+          toolbarHeight: 100,
+          title: Text(
+            ' Fantasy Football App',
+            style: TextStyle(fontSize: 30),
+          ),
+          centerTitle: true,
+          shape: RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.vertical(bottom: Radius.circular(30)))),
       body: Center(
           child: _dbLoaded
               ? Column(
@@ -65,7 +72,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         'Teams',
                         style: TextStyle(
-                            fontSize: 30, color: Colors.deepPurpleAccent),
+                            fontSize: 30,
+                            color: Colors.deepPurpleAccent,
+                            decoration: TextDecoration.underline),
                       ),
                     ),
                     Expanded(
@@ -92,7 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: ListTile(
                                   leading: CircleAvatar(
                                     radius: 50,
-                                    child: Text(team['team_logo']),
+                                    child: Image.network(
+                                        'https://imgprd19.hobbylobby.com/8/a1/b9/8a1b99a889c29d2963e8e050cb484c8941d4676c/700Wx700H-1607233-0120.jpg'),
+                                    //Text(team['team_logo']),
                                   ),
                                   title: Column(children: <Widget>[
                                     Text(
@@ -104,7 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       style: TextStyle(fontSize: 10),
                                     ),
                                     Text(
-                                      team['points_to_date'],
+                                      "Season Points: " +
+                                          team['points_to_date'],
                                       style: TextStyle(fontSize: 10),
                                     ),
                                   ])),

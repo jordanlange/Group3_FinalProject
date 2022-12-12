@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:group_final/api.dart';
-import 'package:group_final/editPlayer.dart';
+import 'package:group_final/editTeam_Player.dart';
 import 'package:group_final/main.dart';
 
 class editTeam extends StatefulWidget {
@@ -39,20 +39,15 @@ class _editTeamState extends State<editTeam> {
     });
   }
 
-  List players = [];
+  List team_players = [];
   bool _dbLoaded = false;
 
   void initState() {
     super.initState();
 
-    widget.api.getAllPlayers().then((data) {
+    widget.api.getAllTeam_Players().then((data) {
       setState(() {
-        players = data;
-        data.sort((a, b) {
-          return a['player_name']
-              .toLowerCase()
-              .compareTo(b['player_name'].toLowerCase());
-        });
+        team_players = data;
         _dbLoaded = true;
       });
     });
@@ -64,7 +59,7 @@ class _editTeamState extends State<editTeam> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.points_to_date),
+        title: Text(widget.owner),
       ),
       body: Center(
           child: _dbLoaded
@@ -84,13 +79,13 @@ class _editTeamState extends State<editTeam> {
                         Padding(
                           padding: const EdgeInsets.all(15),
                           child: Text(
-                            'Player List',
+                            'Team_Players List',
                             style: TextStyle(
                                 fontSize: 30, color: Colors.deepPurpleAccent),
                           ),
                         ),
-                        ...players.map<Widget>(
-                          (player) => Padding(
+                        ...team_players.map<Widget>(
+                          (team_player) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 30),
                             child: TextButton(
                               onPressed: () => {
@@ -98,27 +93,55 @@ class _editTeamState extends State<editTeam> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => editPlayer(
-                                            player['_id'],
-                                            player['bye_week'],
-                                            player['player_name'],
-                                            player['points_scored'],
-                                            player['position'],
-                                            player['status']))),
+                                        builder: (context) => editTeam_Player(
+                                            team_player['_id'],
+                                            team_player['team_player_ID'],
+                                            team_player['owner'],
+                                            team_player['QB'],
+                                            team_player['RB'],
+                                            team_player['WR1'],
+                                            team_player['WR2'],
+                                            team_player['TE'],
+                                            team_player['K']))),
                               },
                               child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: 30,
-                                  child: Text(player['position']),
-                                ),
-                                title: Text(
-                                  player['player_name'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ),
+                                  leading: CircleAvatar(
+                                    radius: 30,
+                                    child: Text(team_player['owner']),
+                                  ),
+                                  title: Column(children: <Widget>[
+                                    Text(
+                                      team_player['owner'],
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      "QB: " + team_player['QB'],
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                    Text(
+                                      "RB: " + team_player['RB'],
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                    Text(
+                                      "WR1: " + team_player['WR1'],
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                    Text(
+                                      "WR2: " + team_player['WR2'],
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                    Text(
+                                      "TE: " + team_player['TE'],
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                    Text(
+                                      "K: " + team_player['K'],
+                                      style: TextStyle(fontSize: 10),
+                                    )
+                                  ])),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     )),
                   ],

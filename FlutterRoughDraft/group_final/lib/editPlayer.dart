@@ -45,10 +45,7 @@ class _editPlayerState extends State<editPlayer> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "Enter a new name for player: " +
-                        widget.bye_week +
-                        " " +
-                        widget.player_name,
+                    "Enter a new name for player: " + widget.player_name,
                     style: TextStyle(fontSize: 15),
                   ),
                   TextFormField(
