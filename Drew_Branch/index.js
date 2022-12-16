@@ -232,22 +232,22 @@ app.post('/findPlayer', async (req, res) => {
 // The EDIT_PLAYER_BY_POSITION route controller
 // ##############################################################################
 
-app.post('/editPlayerByPosition', async (req, res) => {
+app.post('/editPointsByPlayer', async (req, res) => {
     try {
         var player = await Player.updateOne({player_name: req.body.player_name}
         , {
-            position: req.body.position
+            points_scored: req.body.points_scored
         }, {upsert: true});
         if(player)
         {
-            res.status(200).json('message: Player Position Edited');
+            res.status(200).json('message: Player Points Edited');
         }
         else {
-            res.status(200).json('message: No Player Position Changed');
+            res.status(200).json('message: No Player Points Changed');
         }
 
     } catch {
-        return res.status(500).json('message: failed to edit player position');
+        return res.status(500).json('message: failed to edit player points');
     }
 });
 
